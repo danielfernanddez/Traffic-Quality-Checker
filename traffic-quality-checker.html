@@ -1,0 +1,62 @@
+<script id='gtm-traffic-quality-checker'>
+  (function() {
+    // --- 1 Bot Detection Setup ---
+    var isBot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|slurp|lighthouse|headless|pingdom|whatsapp|linkedin|twitter|slack|discord|telegram|pinterest|ahrefs|semrush|mj12|yandex|baidu|bingpreview/i.test(navigator.userAgent);
+    if (navigator.webdriver) { isBot = true; }
+
+    // --- 2 AdBlock Detection Setup ---
+    var isAdBlock = false;
+    var adCheckUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+    
+    // --- 3 Incognito Detection (External Library) ---
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/gh/Joe12387/detectIncognito@main/dist/detectIncognito.min.js';
+    script.async = true;
+
+    script.onload = function() {
+      if (typeof window.detectIncognito === 'function') {
+        window.detectIncognito().then(function(result) {
+          finalizeAudit(result.isPrivate, result.browserName);
+        }).catch(function() {
+          finalizeAudit(false, 'unknown'); // Fail-safe: assume standard if check fails
+        });
+      }
+    };
+
+    script.onerror = function() {
+      // If script fails (maybe blocked?), assume standard
+      finalizeAudit(false, 'unknown');
+    };
+
+    // Helper to check AdBlock and Push Data
+    function finalizeAudit(isPrivate, browserName) {
+      // Perform AdBlock Check (Network Request)
+      var adRequest = new XMLHttpRequest();
+      adRequest.open('HEAD', adCheckUrl, true);
+      adRequest.onload = function() {
+        // Script loaded (No AdBlock)
+        pushData(false, isPrivate, browserName);
+      };
+      adRequest.onerror = function() {
+        // Script blocked (AdBlock likely active)
+        pushData(true, isPrivate, browserName);
+      };
+      adRequest.send();
+    }
+
+    function pushData(adBlockStatus, privateStatus, browserName) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'browser_audit_complete',
+        'traffic_quality': {
+          'is_bot': isBot,
+          'is_ad_blocker': adBlockStatus,
+          'is_incognito': privateStatus,
+          'browser_name': browserName
+        }
+      });
+    }
+
+    document.head.appendChild(script);
+  })();
+</script>
