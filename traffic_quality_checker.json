@@ -1,0 +1,85 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2026-01-21 18:37:09",
+    "containerVersion": {
+        "path": "accounts/6201778462/containers/241398371/versions/0",
+        "accountId": "6201778462",
+        "containerId": "241398371",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/6201778462/containers/241398371",
+            "accountId": "6201778462",
+            "containerId": "241398371",
+            "name": "www.example.com",
+            "publicId": "GTM-MN3W2F8K",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1769020539887",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6201778462/containers/241398371/workspaces?apiLink=container",
+            "features": {
+                "supportUserPermissions": true,
+                "supportEnvironments": true,
+                "supportWorkspaces": true,
+                "supportGtagConfigs": false,
+                "supportBuiltInVariables": true,
+                "supportClients": false,
+                "supportFolders": true,
+                "supportTags": true,
+                "supportTemplates": true,
+                "supportTriggers": true,
+                "supportVariables": true,
+                "supportVersions": true,
+                "supportZones": true,
+                "supportTransformations": false
+            },
+            "tagIds": [
+                "GTM-MN3W2F8K"
+            ]
+        },
+        "tag": [
+            {
+                "accountId": "6201778462",
+                "containerId": "241398371",
+                "tagId": "4",
+                "name": "cHTML - Traffic Quality Checker",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script id='gtm-traffic-quality-checker'>\n  (function() {\n    // --- 1 Bot Detection Setup ---\n    var isBot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|slurp|lighthouse|headless|pingdom|whatsapp|linkedin|twitter|slack|discord|telegram|pinterest|ahrefs|semrush|mj12|yandex|baidu|bingpreview/i.test(navigator.userAgent);\n    if (navigator.webdriver) { isBot = true; }\n\n    // --- 2 AdBlock Detection Setup ---\n    var isAdBlock = false;\n    var adCheckUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';\n    \n    // --- 3 Incognito Detection (External Library) ---\n    var script = document.createElement('script');\n    script.src = 'https://cdn.jsdelivr.net/gh/Joe12387/detectIncognito@main/dist/detectIncognito.min.js';\n    script.async = true;\n\n    script.onload = function() {\n      if (typeof window.detectIncognito === 'function') {\n        window.detectIncognito().then(function(result) {\n          finalizeAudit(result.isPrivate, result.browserName);\n        }).catch(function() {\n          finalizeAudit(false, 'unknown'); // Fail-safe: assume standard if check fails\n        });\n      }\n    };\n\n    script.onerror = function() {\n      // If script fails (maybe blocked?), assume standard\n      finalizeAudit(false, 'unknown');\n    };\n\n    // Helper to check AdBlock and Push Data\n    function finalizeAudit(isPrivate, browserName) {\n      // Perform AdBlock Check (Network Request)\n      var adRequest = new XMLHttpRequest();\n      adRequest.open('HEAD', adCheckUrl, true);\n      adRequest.onload = function() {\n        // Script loaded (No AdBlock)\n        pushData(false, isPrivate, browserName);\n      };\n      adRequest.onerror = function() {\n        // Script blocked (AdBlock likely active)\n        pushData(true, isPrivate, browserName);\n      };\n      adRequest.send();\n    }\n\n    function pushData(adBlockStatus, privateStatus, browserName) {\n      window.dataLayer = window.dataLayer || [];\n      window.dataLayer.push({\n        'event': 'browser_audit_complete',\n        'traffic_quality': {\n          'is_bot': isBot,\n          'is_ad_blocker': adBlockStatus,\n          'is_incognito': privateStatus,\n          'browser_name': browserName\n        }\n      });\n    }\n\n    document.head.appendChild(script);\n  })();\n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1769020611621",
+                "firingTriggerId": [
+                    "2147479573"
+                ],
+                "parentFolderId": "3",
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            }
+        ],
+        "folder": [
+            {
+                "accountId": "6201778462",
+                "containerId": "241398371",
+                "folderId": "3",
+                "name": "Traffic Quality Checker",
+                "fingerprint": "1769020590924"
+            }
+        ],
+        "fingerprint": "1769020629351",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6201778462/containers/241398371/versions/0?apiLink=version"
+    }
+}
