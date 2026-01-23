@@ -8,7 +8,7 @@ The script pushes a `browser_audit_complete` event to the `dataLayer` with the f
 
 * **`is_bot`**: Detects search engines, scrapers, social media preview bots (Slack, WhatsApp, LinkedIn), and headless browsers.
 * **`is_ad_blocker`**: Detects if the user has an active ad-blocker by testing a connection to common ad-serving scripts.
-* **`is_incognito`**: Identifies if the user is in Private/Incognito mode (supporting Chrome, Firefox, Safari(default), and Brave).
+* **`is_incognito`**: Identifies if the user is in Private/Incognito mode (supporting Chrome, Firefox, Safari(default), Edge and Brave).
 * **`browser_name`**: Accurately identifies the browser engine (Chromium, Firefox, Safari, etc.).
 
 ## 💡 Why this is useful
